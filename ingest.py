@@ -23,7 +23,9 @@ def ingest_file(file_path):
 
     if not os.path.exists(file_path):
         print("file not found...")
+
     # this is where we read the file 
+    # we are using PDFReader to explicitly to gaurentee text extraction from PDF files
     ext = os.path.splitext(file_path)[1].lower()
     if ext ==".pdf":
         loader = PDFReader()
@@ -43,7 +45,7 @@ def ingest_file(file_path):
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
 
-
+    # storing vectors from the document that it's taken
     index = VectorStoreIndex.from_documents(
         documents,
         storage_context=storage_context,
@@ -62,6 +64,9 @@ def inspect_collection():
     if count == 0:
         print("empty run... nothing stored yet")
 
+
+    # this fetches the first 3 items from ChromaDB, loops through the text docs,
+    # and prints a numbered list showing up to 200 chars of each doc
     results = collection.peek(limit=3) 
     for i, doc in enumerate(results["documents"]):
         print(f"   [{i+1}] {doc[:200]}{'...' if len(doc) > 200 else ''}")

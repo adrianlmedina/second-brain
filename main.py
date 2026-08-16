@@ -25,10 +25,9 @@ class QueryRequest(BaseModel):
 @app.post("/upload-file/")
 def upload_file(file: UploadFile = File(...)):
     """
-    ingest file, connect to chromadb, chunk the document, 
-    basically send file through 'ingest.py' to store information
+    receives an uploaded file from the client, saves it temporarily to disk
+    then, it runs it through the ingestion pipline, then deletes the file
     """
-    #temp_path = f"./data/data{file.filename}"
 
     filename = os.path.basename(file.filename)
     file_path = os.path.join("C:/projects/second_brain/data", filename)
@@ -46,8 +45,10 @@ def upload_file(file: UploadFile = File(...)):
 
 @app.post("/query/")
 def get_answer(request: QueryRequest):
-    # TODO: takes in user question/request, client sends to server, server runs retrieve()
-    # Claude gets answer, then answer comes back to client
+    """
+    receives a question from client, runs it through the RAG pipeline
+    and returns Claude's synthesized answer
+    """
     answer = retrieve(request.question)
     return {"answer": str(answer)}
 
