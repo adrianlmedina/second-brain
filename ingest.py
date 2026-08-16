@@ -10,7 +10,7 @@ from llama_index.core.node_parser import SentenceSplitter
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from llama_index.core import StorageContext, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-
+from llama_index.readers.file import PDFReader
 load_dotenv()
 
 # choosing which model to use for embedding
@@ -20,8 +20,16 @@ Settings.embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/al
 Settings.text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=64)
 
 def ingest_file(file_path):
+
+    if not os.path.exists(file_path):
+        print("file not found...")
     # this is where we read the file 
-    documents = SimpleDirectoryReader(input_files=[file_path]).load_data()
+    ext = os.path.splitext(file_path)[1].lower()
+    if ext ==".pdf":
+        loader = PDFReader()
+        documents = loader.load_data(file=file_path)
+    else:
+        documents = SimpleDirectoryReader(input_files=[file_path]).load_data()
     print(f"      Loaded {len(documents)} document(s)")
 
 
