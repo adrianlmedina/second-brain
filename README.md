@@ -5,7 +5,7 @@ This is a full-stack AI powered knowledge base that lets the user upload documen
 
 # Demo
 
-![Second Brain Demo](""C:\projects\second_brain\second_brain_demo_gif.gif"")
+![Second Brain Demo](./demo.gif)
 
 
 # Ingest Pipeline
