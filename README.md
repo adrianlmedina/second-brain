@@ -1,4 +1,4 @@
-# Second Brain :brain: :eyes:
+# Second Brain
 
 This is a full-stack AI powered knowledge base that lets the user upload documents and asks questions about them in plain English. Second Brain was build with a RAG (Retrieval-Augmented Generation) pipeline using LlamaIndex, ChromaDB, and Claude.
 
